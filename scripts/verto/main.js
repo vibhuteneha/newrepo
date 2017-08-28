@@ -10,6 +10,7 @@ var bandwidthTestDataBase;
 var destinationNumberBase;
 var decliningCall = false;
 var useVideoBase = false;
+var verto_port;
 
 var heartBeatStarted = false;
 
@@ -17,8 +18,9 @@ var standaloneDemo = false;
 //standaloneDemo = true;
 var angularCallService;
 
-function vertoInit(callService){
+function vertoInit(callService, vertoPort) {
     angularCallService = callService;
+    verto_port = vertoPort;
     $.verto.init({}, bootstrapBase);
 }
 
@@ -82,6 +84,11 @@ function makeCallBase(destinationNumberBase) {
 
 }; // makeCallBase
 
+function isValidVertoPort(portNum) {
+    if (portNum === "0" || !portNum) { return false; };
+    return true;
+};
+
 function bootstrapBase(status) {
 
     //  if(standaloneDemo)
@@ -99,7 +106,8 @@ function bootstrapBase(status) {
     var which_port;
     var which_server;
 
-    which_port =  parseInt(CryptoJS.MD5(wssServerBase).toString().substring(0, 1), 16) % 3;
+    which_port =  isValidVertoPort(verto_port) ? verto_port :
+        parseInt(CryptoJS.MD5(wssServerBase).toString().substring(0, 1), 16) % 3;
 
     switch(which_port) {
     case 0:
@@ -112,7 +120,7 @@ function bootstrapBase(status) {
         which_server = "wss://" + wssServerBase + ":8082";
         break;
     default:
-        console.error("??????", which_port);
+        which_server = "wss://" + wssServerBase + ":" + which_port;
         break;
     }
 
