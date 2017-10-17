@@ -10,6 +10,7 @@
  	window.__env.enableDebug = true;
    	//window.__env.apiUrl = 'https://devvm.onescreen.branham.us';
    	window.__env.apiUrl = 'https://onescreen-neha.qa.kotter.net';
+   	//window.__env.apiUrl = 'https://onescreen-keith.qa.kotter.net';
 
         // Setting this to false will disable VertoInit
         window.__env.enableVerto = true;
